@@ -2,73 +2,47 @@
 using namespace std;
 
 int main() {
-    int N;
+    int N, count=0;
     long long int K;
     int x = 0;
     int y = 0;
     cin >> N >> K;
     vector<vector<long long int>> T(N, vector<long long int>(N));
     
-    vector<int> B(3);
-    int t;
-    for (int i = 0; i < N; i++) {
+    vector<int> B(N-1);
+    long long int t;
+    for (int i = 0; i < N; i++) { 
         for (int j = 0; j < N; j++) {
             cin >> T.at(i).at(j);
         }
     }
-    if(N == 2){
-        t = T.at(0).at(1) + T.at(1).at(0);
-        if(t == K){
-            x++;
-        }
-        cout << x << endl;
+    for (int i = 1; i <= N - 1; i++)
+    {
+        B.at(i-1) = i;
     }
+    
 
-    if(N == 3){
-        t = T.at(0).at(1) + T.at(1).at(2) + T.at(2).at(0);
-        if(t == K){
-            x++;
+    do{
+        t = T.at(0).at(B.at(0));
+        for (int i = 0; i < N-2; i++)
+        {
+            t += T.at(B.at(i)).at(B.at(i+1));
         }
-        t = T.at(0).at(2) + T.at(2).at(1) + T.at(1).at(0);
-        cout << x << endl;
-    }3
+        t += T.at(B.at(N-2)).at(0);
+        if (t == K)
+        {
+            count++;
+            t = 0;
+        }else
+        {
+            t = 0;
+        }
+        
+        
+    }while (next_permutation(B.begin(), B.end()));
 
-    if(N == 4){
-        vector<int> A = {1, 2, 3};
-        vector<int> X = {1, 2, 3};
-        vector<int> B(2);
-        for(int i = 0; i < 3; i++){
-            
-        }
-        t = T.at(0).at(X.at(0)) + T.at(X.at(0)).at(X.at(1)) + T.at(X.at(1)).at(X.at(2)) + T.at(X.at(2)).at(0);
-        if(t == K){
-            x++;
-        }
-        for (int i = 0; i < N; i++) {
-            for (int j = 0; j < N; j++) {
-            if(i != j){
-                B.at(i) = A.at(j);
-                B.at(j) = A.at (i);
-                t = T.at(0).at(A.at(0)) + T.at(A.at(0)).at(A.at(1)) + T.at(A.at(0)).at(0);
-                y++;
-            }
-            }
-        }
-        x = y / 2;
-        for (int i = 0; i < N; i++) {
-            for (int j = 0; j < N; j++) {
-                for (int k = 0; k < N; k++) {
-                    if(i != j && i != k && j !=  k) {
-                        B.at(i) = A.at(j);
-                        B.at(j) = A.at (i);
-                        t = T.at(0).at(A.at(0)) + T.at(A.at(0)).at(A.at(1)) + T.at(A.at(0)).at(0);
-                        y++;
-                    }
-                }
-            }
-        }
-    }
-
+    
+    cout << count << endl;
   
     return 0;
 }
